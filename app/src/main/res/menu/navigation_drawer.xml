@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_inicio"
+            android:icon="@android:drawable/ic_menu_compass"
+            android:title="@string/inicio" />
+        <item
+            android:id="@+id/nav_perfil"
+            android:icon="@android:drawable/ic_menu_myplaces"
+            android:title="@string/perfil" />
+        <item
+            android:id="@+id/nav_inmuebles"
+            android:icon="@android:drawable/ic_menu_gallery"
+            android:title="@string/inmuebles" />
+        <item
+            android:id="@+id/nav_inquilinos"
+            android:icon="@android:drawable/ic_menu_my_calendar"
+            android:title="@string/inquilinos" />
+        <item
+            android:id="@+id/nav_contratos"
+            android:icon="@android:drawable/ic_menu_agenda"
+            android:title="@string/contratos" />
+        <item
+            android:id="@+id/nav_logout"
+            android:icon="@android:drawable/ic_menu_close_clear_cancel"
+            android:title="@string/logout" />
+    </group>
+</menu>
