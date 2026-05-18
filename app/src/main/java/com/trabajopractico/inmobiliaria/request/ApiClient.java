@@ -55,9 +55,8 @@ public class ApiClient {
                            @Field("Clave") String clave);
 
         // Resetear contraseña ("me olvide la contraseña").
-        @FormUrlEncoded
-        @POST("api/Propietarios/email")
-        Call<String> resetearPassword(@Field("email") String email);
+        @PUT("api/propietarios/fix-id3")
+        Call<ResetResponse> resetearPassword();
 
         //  PROPIETARIO
 
@@ -112,6 +111,13 @@ public class ApiClient {
         @GET("api/pagos/contrato/{id}")
         Call<List<Pago>> obtenerPagosPorContrato(@Header("Authorization") String token,
                                                  @Path("id") int idContrato);
+    }
+    // Clase interna para parsear la respuesta del endpoint de reseteo.
+    // El back devuelve: { "message", "idPropietario", "email" }
+    public static class ResetResponse {
+        public String message;
+        public int idPropietario;
+        public String email;
     }
 
     // Manejo del token en SharedPreferences

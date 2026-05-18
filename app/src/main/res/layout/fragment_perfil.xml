@@ -9,6 +9,7 @@
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F8F1FB">
@@ -20,10 +21,11 @@
         android:padding="20dp">
 
         <TextView
+            android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="Perfil"
+            android:text="@string/perfil"
             android:textColor="@color/morado_primario"
             android:textSize="22sp"
             android:textStyle="bold"
@@ -32,7 +34,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Código"
+            android:text="@string/c_digo"
             android:textColor="#666666"
             android:textSize="13sp" />
 
@@ -40,15 +42,15 @@
             android:id="@+id/etCodigo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:textColor="@color/morado_primario"
             android:layout_marginBottom="10dp"
-            android:autofillHints="" />
+            android:autofillHints=""
+            android:enabled="false"
+            android:textColor="@color/morado_primario" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="DNI"
+            android:text="@string/dni"
             android:textColor="#666666"
             android:textSize="13sp" />
 
@@ -65,7 +67,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Nombre"
+            android:text="@string/nombre"
             android:textColor="#666666"
             android:textSize="13sp" />
 
@@ -82,7 +84,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Apellido"
+            android:text="@string/apellido"
             android:textColor="#666666"
             android:textSize="13sp" />
 
@@ -99,7 +101,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="E-mail"
+            android:text="@string/e_mail"
             android:textColor="#666666"
             android:textSize="13sp" />
 
@@ -116,7 +118,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Teléfono"
+            android:text="@string/tel_fono"
             android:textColor="#666666"
             android:textSize="13sp" />
 
@@ -124,20 +126,32 @@
             android:id="@+id/etTelefono"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:autofillHints="phone"
             android:enabled="false"
             android:inputType="phone"
             android:textColor="@color/morado_primario"
-            android:layout_marginBottom="20dp"
-            android:autofillHints="phone" />
+            tools:layout_editor_absoluteX="0dp"
+            tools:layout_editor_absoluteY="52dp" />
 
         <Button
             android:id="@+id/btnEditar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_boton_teal"
-            android:text="EDITAR"
-            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/morado_primario"
             android:padding="14dp"
+            android:text="@string/editar"
+            android:textColor="#FFFFFF"
+            android:textStyle="bold"
+            android:layout_marginBottom="10dp" />
+
+        <Button
+            android:id="@+id/btnCambiarContrasenia"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/teal_header"
+            android:padding="14dp"
+            android:text="@string/cambiar_contrase_a"
+            android:textColor="#FFFFFF"
             android:textStyle="bold" />
 
     </LinearLayout>

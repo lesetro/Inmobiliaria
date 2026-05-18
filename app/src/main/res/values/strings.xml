@@ -36,4 +36,18 @@
     <string name="olvidaste_tu_contrase_a">¿Olvidaste tu contraseña?</string>
     <string name="imagenes">Imagenes</string>
     <string name="configuracion">Configuracion</string>
+    <string name="c_digo">Código</string>
+    <string name="dni">DNI</string>
+    <string name="editar">EDITAR</string>
+    <string name="e_mail">E-mail</string>
+    <string name="apellido">Apellido</string>
+    <string name="nombre">Nombre</string>
+    <string name="tel_fono">Teléfono</string>
+    <string name="cambiar_contrase_a">CAMBIAR CONTRASEÑA</string>
+    <string name="guardar">GUARDAR</string>
+    <string name="nueva_contrase_a">Nueva contraseña</string>
+    <string name="contrase_a_actual">Contraseña actual</string>
+    <string name="foto_del_inmueble">Foto del inmueble</string>
+    <string name="direcci_n">Dirección</string>
+    <string name="precio">Precio</string>
 </resources>

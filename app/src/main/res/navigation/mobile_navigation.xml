@@ -40,5 +40,13 @@
         android:name="com.trabajopractico.inmobiliaria.ui.logout.LogoutFragment"
         android:label="Logout"
         tools:layout="@layout/fragment_logout" />
+    <fragment
+        android:id="@+id/perfilEditarContraseniaFragment"
+        android:name="com.trabajopractico.inmobiliaria.ui.perfilEditarContraseña.PerfilEditarContraseniaFragment"
+        android:label="PerfilEditarContraseniaFragment" >
+        <action
+            android:id="@+id/action_perfilEditarContraseniaFragment_to_nav_perfil"
+            app:destination="@id/nav_perfil" />
+    </fragment>
 
 </navigation>

@@ -8,25 +8,41 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.trabajopractico.inmobiliaria.databinding.FragmentInmueblesBinding;
+import com.trabajopractico.inmobiliaria.modelo.Inmueble;
+
+import java.util.List;
 
 public class InmueblesFragment extends Fragment {
 
+    private InmueblesViewModel mViewModel;
     private FragmentInmueblesBinding binding;
-    private InmueblesViewModel vm;
 
-    @Nullable
+    public static InmueblesFragment newInstance() {
+        return new InmueblesFragment();
+    }
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentInmueblesBinding.inflate(inflater, container, false);
-        vm = new ViewModelProvider(this).get(InmueblesViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(InmueblesViewModel.class);
 
-        vm.getTexto().observe(getViewLifecycleOwner(), texto -> binding.tvInmuebles.setText(texto));
+        mViewModel.getListaInmuebles().observe(getViewLifecycleOwner(), new Observer<List<Inmueble>>() {
+            @Override
+            public void onChanged(List<Inmueble> inmuebles) {
+                InmuebleAdapter adapter = new InmuebleAdapter(inmuebles, getLayoutInflater());
+                binding.rvInmuebles.setAdapter(adapter);
+                GridLayoutManager glm = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
+                binding.rvInmuebles.setLayoutManager(glm);
+            }
+        });
 
+        mViewModel.obtenerListaInmuebles();
         return binding.getRoot();
     }
 

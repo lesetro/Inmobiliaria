@@ -2,6 +2,7 @@ package com.trabajopractico.inmobiliaria.ui.perfil;
 
 import android.app.Application;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -63,5 +64,47 @@ public class PerfilViewModel extends AndroidViewModel {
             propietarioMutable.postValue(null);
         }
     }
+
+    public void actualizarPropietario(String nombre, String apellido, String dni,
+                                      String telefono, String email) {
+        Propietario p = propietarioMutable.getValue();
+        if (p == null) return;
+
+        p.setNombre(nombre);
+        p.setApellido(apellido);
+        p.setDni(dni);
+        p.setTelefono(telefono);
+        p.setEmail(email);
+        p.setClave(null);
+
+        String token = ApiClient.tokenBearer(getApplication());
+        ApiClient.MiServicioInmobiliaria servicio = ApiClient.getServicio();
+        Call<Propietario> call = servicio.actualizarPerfil(token, p);
+
+        call.enqueue(new Callback<Propietario>() {
+            @Override
+            public void onResponse(Call<Propietario> call, Response<Propietario> response) {
+                if (response.isSuccessful()) {
+                    Propietario nuevo = response.body();
+                    if (nuevo != null) {
+                        propietarioMutable.postValue(nuevo);
+                        Toast.makeText(getApplication(), "Actualizacion exitosa",
+                                Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(getApplication(), "Error", Toast.LENGTH_LONG).show();
+                    Log.d("ERROR", "codigo: " + response.code());
+                    Log.d("ERROR", "mensaje: " + response.message());
+                    Log.d("ERROR", "body: " + response.errorBody());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Propietario> call, Throwable t) {
+                Toast.makeText(getApplication(), "on failure", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
 
 }

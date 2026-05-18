@@ -48,12 +48,21 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        // Observar el loading (para mostrar/ocultar progress si en algun momento
-        // se agrega un ProgressBar al layout)
+        // Cuando el reset es exitoso, cambiamos el texto del boton para dar feedback visual
+        vm.getResetExitoso().observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean exito) {
+                if (exito != null && exito) {
+                    binding.btnRecuperar.setText("Contraseña restablecida");
+                    binding.btnRecuperar.setEnabled(false);
+                }
+            }
+        });
+
         vm.getIsLoading().observe(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean loading) {
-                // aca se hace setVisibility(loading ? VISIBLE : GONE).
+                // Reservado para ProgressBar
             }
         });
 
@@ -63,6 +72,14 @@ public class LoginActivity extends AppCompatActivity {
                 String usuario = binding.etUsuario.getText().toString();
                 String clave = binding.etContrasena.getText().toString();
                 vm.login(usuario, clave);
+            }
+        });
+
+        // "¿Olvidaste tu contraseña?": llama al endpoint de reseteo .
+        binding.btnRecuperar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                vm.resetearContrasenia();
             }
         });
 
