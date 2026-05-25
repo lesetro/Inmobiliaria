@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Menu;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
@@ -53,11 +52,6 @@ public class MainActivity extends AppCompatActivity {
         // Configurar NavigationView (menú lateral)
         NavigationUI.setupWithNavController(binding.navView, navController);
 
-        // Configurar BottomNavigationView
-        BottomNavigationView bottomNavView = binding.appBarMain.contentMain.bottomNavView;
-        if (bottomNavView != null) {
-            NavigationUI.setupWithNavController(bottomNavView, navController);
-        }
     }
 
     @Override

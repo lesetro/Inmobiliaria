@@ -50,4 +50,30 @@
     <string name="foto_del_inmueble">Foto del inmueble</string>
     <string name="direcci_n">Dirección</string>
     <string name="precio">Precio</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="agregar_inmueble">Agregar inmueble</string>
+    <string name="nuevo_inmueble">Nuevo inmueble</string>
+    <string name="ambientes">Ambientes</string>
+    <string name="tipo">Tipo</string>
+    <string name="superficie_m">Superficie (m²)</string>
+    <string name="valor">Valor</string>
+    <string-array name="opciones_uso">
+        <item>Residencial</item>
+        <item>Comercial</item>
+        <item>Industrial</item>
+    </string-array>
+    <string-array name="opciones_tipo">
+        <item>Casa</item>
+        <item>Departamento</item>
+        <item>Local Comercial</item>
+        <item>Oficina</item>
+        <item>Galpón</item>
+        <item>Terreno</item>
+    </string-array>
+    <style name="SpinnerTheme" parent="Theme.AppCompat.Light">
+        <item name="colorControlNormal">#9C27B0</item>
+        <item name="android:textColorPrimary">#333333</item>
+        <item name="android:textColor">#333333</item>
+    </style>
 </resources>

@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:background="#F8F1FB">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/ivImagenDetalle"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/house"
+        android:contentDescription="Foto del inmueble"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDireccionDetalle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Dirección"
+        android:textColor="@color/morado_primario"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/ivImagenDetalle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/tvPrecioDetalle" />
+
+    <TextView
+        android:id="@+id/tvPrecioDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="$ 0"
+        android:textColor="@color/morado_primario"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/tvDireccionDetalle"
+        app:layout_constraintBottom_toBottomOf="@id/tvDireccionDetalle"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/tvInmuebleDisponibilidad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Disponible para alquilar"
+        android:textColor="#666666"
+        android:textSize="13sp"
+        app:layout_constraintTop_toBottomOf="@id/tvDireccionDetalle"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <CheckBox
+        android:id="@+id/chDisponible"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Marcar disponible"
+        android:textColor="@color/morado_primario"
+        app:layout_constraintTop_toBottomOf="@id/tvInmuebleDisponibilidad"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvDetallesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="DETALLES"
+        android:textColor="#888888"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/chDisponible"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Codigo -->
+    <TextView
+        android:id="@+id/tvCodigoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="CÓDIGO"
+        android:textColor="#888888"
+        android:textSize="11sp"
+        app:layout_constraintTop_toBottomOf="@id/tvDetallesLabel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvCodigoDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="INM-000"
+        android:textColor="@color/morado_primario"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvCodigoLabel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Ambientes -->
+    <TextView
+        android:id="@+id/tvAmbientesLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AMBIENTES"
+        android:textColor="#888888"
+        android:textSize="11sp"
+        app:layout_constraintTop_toTopOf="@id/tvCodigoLabel"
+        app:layout_constraintStart_toStartOf="@id/guideline_mitad" />
+
+    <TextView
+        android:id="@+id/tvAmbientesDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="0 ambientes"
+        android:textColor="@color/morado_primario"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvAmbientesLabel"
+        app:layout_constraintStart_toStartOf="@id/guideline_mitad" />
+
+    <!-- Uso -->
+    <TextView
+        android:id="@+id/tvUsoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="USO"
+        android:textColor="#888888"
+        android:textSize="11sp"
+        app:layout_constraintTop_toBottomOf="@id/tvCodigoDetalle"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvUsoDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Uso"
+        android:textColor="@color/morado_primario"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvUsoLabel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Tipo -->
+    <TextView
+        android:id="@+id/tvTipoLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TIPO"
+        android:textColor="#888888"
+        android:textSize="11sp"
+        app:layout_constraintTop_toTopOf="@id/tvUsoLabel"
+        app:layout_constraintStart_toStartOf="@id/guideline_mitad" />
+
+    <TextView
+        android:id="@+id/tvTipoDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Tipo"
+        android:textColor="@color/morado_primario"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvTipoLabel"
+        app:layout_constraintStart_toStartOf="@id/guideline_mitad" />
+
+    <!-- Superficie -->
+    <TextView
+        android:id="@+id/tvSuperficieLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="SUPERFICIE"
+        android:textColor="#888888"
+        android:textSize="11sp"
+        app:layout_constraintTop_toBottomOf="@id/tvUsoDetalle"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvSuperficieDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="0 m²"
+        android:textColor="@color/morado_primario"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvSuperficieLabel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!-- Ubicacion -->
+    <TextView
+        android:id="@+id/tvUbicacionLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="UBICACIÓN"
+        android:textColor="#888888"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvSuperficieDetalle"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLatitudLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="LATITUD"
+        android:textColor="#888888"
+        android:textSize="11sp"
+        app:layout_constraintTop_toBottomOf="@id/tvUbicacionLabel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLatitudDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="0.0"
+        android:textColor="@color/morado_primario"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvLatitudLabel"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/tvLongitudLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="LONGITUD"
+        android:textColor="#888888"
+        android:textSize="11sp"
+        app:layout_constraintTop_toTopOf="@id/tvLatitudLabel"
+        app:layout_constraintStart_toStartOf="@id/guideline_mitad" />
+
+    <TextView
+        android:id="@+id/tvLongitudDetalle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="0.0"
+        android:textColor="@color/morado_primario"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/tvLongitudLabel"
+        app:layout_constraintStart_toStartOf="@id/guideline_mitad" />
+
+    <!-- Guideline vertical al 50% para dividir la pantalla en dos columnas -->
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_mitad"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

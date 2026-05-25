@@ -1,4 +1,4 @@
-package com.trabajopractico.inmobiliaria.ui.inquilinos;
+package com.trabajopractico.inmobiliaria.ui.pagos;
 
 import android.app.Application;
 import android.util.Log;
@@ -9,7 +9,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import com.trabajopractico.inmobiliaria.modelo.Inmueble;
+import com.trabajopractico.inmobiliaria.modelo.Pago;
 import com.trabajopractico.inmobiliaria.request.ApiClient;
 
 import java.util.List;
@@ -18,30 +18,30 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class InquilinosViewModel extends AndroidViewModel {
+public class PagosViewModel extends AndroidViewModel {
 
-    private MutableLiveData<List<Inmueble>> listaAlquilados = new MutableLiveData<>();
+    private MutableLiveData<List<Pago>> listaPagos = new MutableLiveData<>();
 
-    public InquilinosViewModel(@NonNull Application application) {
+    public PagosViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public LiveData<List<Inmueble>> getListaAlquilados() {
-        return listaAlquilados;
+    public LiveData<List<Pago>> getListaPagos() {
+        return listaPagos;
     }
 
-    public void obtenerInmueblesAlquilados() {
+    public void obtenerPagos(int idContrato) {
         String token = ApiClient.tokenBearer(getApplication());
         ApiClient.MiServicioInmobiliaria api = ApiClient.getServicio();
-        Call<List<Inmueble>> call = api.obtenerInmueblesAlquilados(token);
+        Call<List<Pago>> call = api.obtenerPagosPorContrato(token, idContrato);
 
-        call.enqueue(new Callback<List<Inmueble>>() {
+        call.enqueue(new Callback<List<Pago>>() {
             @Override
-            public void onResponse(Call<List<Inmueble>> call, Response<List<Inmueble>> response) {
+            public void onResponse(Call<List<Pago>> call, Response<List<Pago>> response) {
                 if (response.isSuccessful()) {
-                    listaAlquilados.postValue(response.body());
+                    listaPagos.postValue(response.body());
                 } else {
-                    Toast.makeText(getApplication(), "No se obtuvieron inmuebles alquilados",
+                    Toast.makeText(getApplication(), "No se obtuvieron pagos",
                             Toast.LENGTH_LONG).show();
                     Log.d("ERROR", "codigo: " + response.code());
                     Log.d("ERROR", "mensaje: " + response.message());
@@ -49,7 +49,7 @@ public class InquilinosViewModel extends AndroidViewModel {
             }
 
             @Override
-            public void onFailure(Call<List<Inmueble>> call, Throwable t) {
+            public void onFailure(Call<List<Pago>> call, Throwable t) {
                 Toast.makeText(getApplication(), "On failure", Toast.LENGTH_LONG).show();
             }
         });

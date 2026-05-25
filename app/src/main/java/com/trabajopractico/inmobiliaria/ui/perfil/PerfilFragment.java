@@ -19,7 +19,7 @@ public class PerfilFragment extends Fragment {
 
     private FragmentPerfilBinding binding;
     private PerfilViewModel vm;
-    private boolean modoEdicion = false;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -28,8 +28,8 @@ public class PerfilFragment extends Fragment {
         // Inflar el binding
         binding = FragmentPerfilBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        // El boton arranca deshabilitado
-        // Se habilita cuando lleguen los datos del perfil
+
+        // El boton arranca deshabilitado, se habilita cuando lleguen los datos
         binding.btnEditar.setEnabled(false);
 
         // Observar cambios en el Propietario
@@ -47,39 +47,35 @@ public class PerfilFragment extends Fragment {
                 }
             }
         });
-        // Boton EDITAR / GUARDAR
+        // Observar cambios en el modo edicion: habilita/deshabilita campos y cambia texto del boton
+        vm.getModoEdicionMutable().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean modoEdicion) {
+                if (modoEdicion == null) return;
+                boolean habilitar = modoEdicion;
+                binding.etDni.setEnabled(habilitar);
+                binding.etNombre.setEnabled(habilitar);
+                binding.etApellido.setEnabled(habilitar);
+                binding.etEmail.setEnabled(habilitar);
+                binding.etTelefono.setEnabled(habilitar);
+                binding.btnEditar.setText(habilitar ? "GUARDAR" : "EDITAR");
+            }
+        });
+
+        // Boton EDITAR / GUARDAR: el VM decide que hacer segun el estado actual
         binding.btnEditar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!modoEdicion) {
-                    // Pasar a modo edicion: habilitar campos (menos etCodigo)
-                    binding.etDni.setEnabled(true);
-                    binding.etNombre.setEnabled(true);
-                    binding.etApellido.setEnabled(true);
-                    binding.etEmail.setEnabled(true);
-                    binding.etTelefono.setEnabled(true);
-                    binding.btnEditar.setText("GUARDAR");
-                    modoEdicion = true;
-                } else {
-                    // Guardar: llamar al VM con los 5 strings del binding
-                    vm.actualizarPropietario(
-                            binding.etNombre.getText().toString(),
-                            binding.etApellido.getText().toString(),
-                            binding.etDni.getText().toString(),
-                            binding.etTelefono.getText().toString(),
-                            binding.etEmail.getText().toString()
-                    );
-                    // Volver a modo lectura
-                    binding.etDni.setEnabled(false);
-                    binding.etNombre.setEnabled(false);
-                    binding.etApellido.setEnabled(false);
-                    binding.etEmail.setEnabled(false);
-                    binding.etTelefono.setEnabled(false);
-                    binding.btnEditar.setText("EDITAR");
-                    modoEdicion = false;
-                }
+                vm.alternarModoEdicion(
+                        binding.etNombre.getText().toString(),
+                        binding.etApellido.getText().toString(),
+                        binding.etDni.getText().toString(),
+                        binding.etTelefono.getText().toString(),
+                        binding.etEmail.getText().toString()
+                );
             }
         });
+
         // Boton CAMBIAR CONTRASEÑA: navega al fragment de cambiar contrasenia
         binding.btnCambiarContrasenia.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,7 +84,6 @@ public class PerfilFragment extends Fragment {
             }
         });
 
-        // Cargar el perfil
         vm.cargarPerfil();
         return root;
     }

@@ -20,8 +20,10 @@ public class PerfilViewModel extends AndroidViewModel {
 
     private static final String TAG = "Perfil";
     private MutableLiveData<Propietario> propietarioMutable;
+    private MutableLiveData<Boolean> modoEdicionMutable;
 
     public PerfilViewModel(@NonNull Application application) {
+
         super(application);
     }
 
@@ -30,6 +32,14 @@ public class PerfilViewModel extends AndroidViewModel {
             propietarioMutable = new MutableLiveData<>();
         }
         return propietarioMutable;
+    }
+
+    public LiveData<Boolean> getModoEdicionMutable() {
+        if (modoEdicionMutable == null) {
+            modoEdicionMutable = new MutableLiveData<>();
+            modoEdicionMutable.setValue(false);
+        }
+        return modoEdicionMutable;
     }
 
     public void cargarPerfil() {
@@ -62,6 +72,24 @@ public class PerfilViewModel extends AndroidViewModel {
         } catch (Exception e) {
             Log.e(TAG, "Excepción al cargar perfil: " + e.getMessage());
             propietarioMutable.postValue(null);
+        }
+    }
+
+    // Alterna entre modo lectura y modo edicion.
+    // Si esta en lectura -> pasa a edicion (no hace nada con los strings).
+    // Si esta en edicion -> guarda los cambios (manda PUT) y vuelve a lectura.
+    public void alternarModoEdicion(String nombre, String apellido, String dni,
+                                    String telefono, String email) {
+        Boolean modoActual = getModoEdicionMutable().getValue();
+        if (modoActual == null) modoActual = false;
+
+        if (!modoActual) {
+            // Pasar a modo edicion
+            modoEdicionMutable.setValue(true);
+        } else {
+            // Guardar y volver a modo lectura
+            actualizarPropietario(nombre, apellido, dni, telefono, email);
+            modoEdicionMutable.setValue(false);
         }
     }
 

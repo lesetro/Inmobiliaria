@@ -10,8 +10,10 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.trabajopractico.inmobiliaria.R;
 import com.trabajopractico.inmobiliaria.databinding.FragmentInmueblesBinding;
 import com.trabajopractico.inmobiliaria.modelo.Inmueble;
 
@@ -35,10 +37,19 @@ public class InmueblesFragment extends Fragment {
         mViewModel.getListaInmuebles().observe(getViewLifecycleOwner(), new Observer<List<Inmueble>>() {
             @Override
             public void onChanged(List<Inmueble> inmuebles) {
-                InmuebleAdapter adapter = new InmuebleAdapter(inmuebles, getLayoutInflater());
+                InmuebleAdapter adapter = new InmuebleAdapter(inmuebles, getLayoutInflater(), InmuebleAdapter.Destino.DETALLE);
                 binding.rvInmuebles.setAdapter(adapter);
                 GridLayoutManager glm = new GridLayoutManager(getContext(), 2, GridLayoutManager.VERTICAL, false);
                 binding.rvInmuebles.setLayoutManager(glm);
+            }
+        });
+
+        // FAB para agregar inmueble nuevo
+        binding.fabAgregar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v)
+                        .navigate(R.id.action_nav_inmuebles_to_inmuebleNuevoFragment);
             }
         });
 

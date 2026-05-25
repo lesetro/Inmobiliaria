@@ -15,38 +15,97 @@
         android:id="@+id/nav_perfil"
         android:name="com.trabajopractico.inmobiliaria.ui.perfil.PerfilFragment"
         android:label="Perfil"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_perfil">
+
+        <action
+            android:id="@+id/action_nav_perfil_to_perfilEditarContraseniaFragment"
+            app:destination="@id/perfilEditarContraseniaFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_inmuebles"
         android:name="com.trabajopractico.inmobiliaria.ui.inmuebles.InmueblesFragment"
         android:label="Inmuebles"
-        tools:layout="@layout/fragment_inmuebles" />
+        tools:layout="@layout/fragment_inmuebles">
+
+        <action
+            android:id="@+id/action_nav_inmuebles_to_inmuebleDetalleFragment"
+            app:destination="@id/inmuebleDetalleFragment" />
+
+        <action
+            android:id="@+id/action_nav_inmuebles_to_inmuebleNuevoFragment"
+            app:destination="@id/inmuebleNuevoFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_inquilinos"
         android:name="com.trabajopractico.inmobiliaria.ui.inquilinos.InquilinosFragment"
         android:label="Inquilinos"
-        tools:layout="@layout/fragment_inquilinos" />
+        tools:layout="@layout/fragment_inquilinos">
+
+        <action
+            android:id="@+id/action_nav_inquilinos_to_inquilinoDetalleFragment"
+            app:destination="@id/inquilinoDetalleFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_contratos"
         android:name="com.trabajopractico.inmobiliaria.ui.contratos.ContratosFragment"
         android:label="Contratos"
-        tools:layout="@layout/fragment_contratos" />
+        tools:layout="@layout/fragment_contratos">
+
+        <action
+            android:id="@+id/action_nav_contratos_to_contratoDetalleFragment"
+            app:destination="@id/contratoDetalleFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_logout"
         android:name="com.trabajopractico.inmobiliaria.ui.logout.LogoutFragment"
         android:label="Logout"
         tools:layout="@layout/fragment_logout" />
+
+    <!-- Fragments secundarios (no van en el menu hamburguesa) -->
+
     <fragment
         android:id="@+id/perfilEditarContraseniaFragment"
         android:name="com.trabajopractico.inmobiliaria.ui.perfilEditarContraseña.PerfilEditarContraseniaFragment"
-        android:label="PerfilEditarContraseniaFragment" >
+        android:label="Cambiar contraseña"
+        tools:layout="@layout/fragment_perfil_editar_contrasenia" />
+
+    <fragment
+        android:id="@+id/inmuebleDetalleFragment"
+        android:name="com.trabajopractico.inmobiliaria.ui.inmuebleDetalle.InmuebleDetalleFragment"
+        android:label="Detalle"
+        tools:layout="@layout/fragment_inmueble_detalle" />
+
+    <fragment
+        android:id="@+id/inmuebleNuevoFragment"
+        android:name="com.trabajopractico.inmobiliaria.ui.inmuebleNuevo.InmuebleNuevoFragment"
+        android:label="Nuevo inmueble"
+        tools:layout="@layout/fragment_inmueble_nuevo" />
+
+    <fragment
+        android:id="@+id/contratoDetalleFragment"
+        android:name="com.trabajopractico.inmobiliaria.ui.contratoDetalle.ContratoDetalleFragment"
+        android:label="Contrato"
+        tools:layout="@layout/fragment_contrato_detalle">
+
         <action
-            android:id="@+id/action_perfilEditarContraseniaFragment_to_nav_perfil"
-            app:destination="@id/nav_perfil" />
+            android:id="@+id/action_contratoDetalleFragment_to_pagosFragment"
+            app:destination="@id/pagosFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/pagosFragment"
+        android:name="com.trabajopractico.inmobiliaria.ui.pagos.PagosFragment"
+        android:label="Pagos"
+        tools:layout="@layout/fragment_pagos" />
+
+    <fragment
+        android:id="@+id/inquilinoDetalleFragment"
+        android:name="com.trabajopractico.inmobiliaria.ui.inquilinoDetalle.InquilinoDetalleFragment"
+        android:label="Inquilino"
+        tools:layout="@layout/fragment_inquilino_detalle" />
 
 </navigation>
