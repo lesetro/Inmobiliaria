@@ -37,16 +37,13 @@ public class PagosFragment extends Fragment {
             }
         });
 
-        // El idContrato llega por Bundle desde el detalle del contrato
-        if (getArguments() != null) {
-            int idContrato = getArguments().getInt("idContrato", 0);
-            if (idContrato > 0) {
-                vm.obtenerPagos(idContrato);
-            }
-        }
+
+        // El VM maneja la extraccion y validacion del Bundle
+        vm.cargarPagos(getArguments());
 
         return binding.getRoot();
     }
+
 
     @Override
     public void onDestroyView() {

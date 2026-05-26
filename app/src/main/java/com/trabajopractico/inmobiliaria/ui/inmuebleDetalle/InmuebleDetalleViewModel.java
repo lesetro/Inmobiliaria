@@ -14,6 +14,9 @@ import androidx.lifecycle.ViewModel;
 import com.trabajopractico.inmobiliaria.modelo.Inmueble;
 import com.trabajopractico.inmobiliaria.request.ApiClient;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -22,8 +25,13 @@ public class InmuebleDetalleViewModel extends AndroidViewModel {
 
     private MutableLiveData<Inmueble> inmuebleMutable;
     private MutableLiveData<String> textoDisponibilidad;
+    private MutableLiveData<String> precioMutable;
+    private MutableLiveData<String> codigoMutable;
+    private MutableLiveData<String> ambientesMutable;
+    private MutableLiveData<String> superficieMutable;
 
     public InmuebleDetalleViewModel(@NonNull Application application) {
+
         super(application);
     }
 
@@ -41,24 +49,52 @@ public class InmuebleDetalleViewModel extends AndroidViewModel {
         return textoDisponibilidad;
     }
 
+    public LiveData<String> getPrecioMutable() {
+        if (precioMutable == null) precioMutable = new MutableLiveData<>();
+        return precioMutable;
+    }
+
+    public LiveData<String> getCodigoMutable() {
+        if (codigoMutable == null) codigoMutable = new MutableLiveData<>();
+        return codigoMutable;
+    }
+
+    public LiveData<String> getAmbientesMutable() {
+        if (ambientesMutable == null) ambientesMutable = new MutableLiveData<>();
+        return ambientesMutable;
+    }
+
+    public LiveData<String> getSuperficieMutable() {
+        if (superficieMutable == null) superficieMutable = new MutableLiveData<>();
+        return superficieMutable;
+    }
+
     // Carga el detalle del inmueble desde el Bundle recibido del fragment anterior
     public void cargarDetalleInmueble(Bundle bundle) {
-        if (bundle != null) {
-            Inmueble inmueble = (Inmueble) bundle.getSerializable("inmueble");
-            if (inmueble != null) {
-                inmuebleMutable.setValue(inmueble);
-                if (inmueble.isDisponible()) {
-                    textoDisponibilidad.setValue("Disponible para alquilar");
-                } else {
-                    textoDisponibilidad.setValue("No disponible");
-                }
-            }
+        if (bundle == null) return;
+        Inmueble inmueble = (Inmueble) bundle.getSerializable("inmueble");
+        if (inmueble == null) return;
+
+        inmuebleMutable.setValue(inmueble);
+        publicarCamposFormateados(inmueble);
+
+        if (inmueble.isDisponible()) {
+            textoDisponibilidad.setValue("Disponible para alquilar");
+        } else {
+            textoDisponibilidad.setValue("No disponible");
         }
     }
 
-    // Cambia la disponibilidad del inmueble.
-    // Trabaja sobre el Inmueble que ya esta en el LiveData,
-    // le cambia el campo disponible y manda el PUT al backend.
+    // Arma los textos formateados y los publica en sus LiveData
+    private void publicarCamposFormateados(Inmueble inmueble) {
+        NumberFormat nf = NumberFormat.getInstance(new Locale("es", "AR"));
+        precioMutable.setValue("$ " + nf.format(inmueble.getValor()));
+        codigoMutable.setValue("INM-" + String.format("%03d", inmueble.getIdInmueble()));
+        ambientesMutable.setValue(inmueble.getAmbientes() + " ambientes");
+        superficieMutable.setValue(inmueble.getSuperficie() + " m²");
+    }
+
+    // Cambia la disponibilidad del inmueble y manda el PUT al backend
     public void cambiarDisponibilidad(boolean disponible) {
         Inmueble inmueble = inmuebleMutable.getValue();
         if (inmueble == null) return;

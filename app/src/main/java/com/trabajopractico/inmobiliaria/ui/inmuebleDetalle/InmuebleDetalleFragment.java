@@ -61,7 +61,36 @@ public class InmuebleDetalleFragment extends Fragment {
             }
         });
 
-        // Observador del texto de disponibilidad
+        // Observers de campos formateados (el VM arma el texto)
+        mViewModel.getPrecioMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String precio) {
+                binding.tvPrecioDetalle.setText(precio);
+            }
+        });
+
+        mViewModel.getCodigoMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String codigo) {
+                binding.tvCodigoDetalle.setText(codigo);
+            }
+        });
+
+        mViewModel.getAmbientesMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String ambientes) {
+                binding.tvAmbientesDetalle.setText(ambientes);
+            }
+        });
+
+        mViewModel.getSuperficieMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String superficie) {
+                binding.tvSuperficieDetalle.setText(superficie);
+            }
+        });
+
+        // Observer del texto de disponibilidad (el VM decide el texto)
         mViewModel.getTextoDisponibilidad().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(String mensaje) {
@@ -69,10 +98,9 @@ public class InmuebleDetalleFragment extends Fragment {
             }
         });
 
-        // Recibe el bundle con el Inmueble del fragment anterior
         mViewModel.cargarDetalleInmueble(getArguments());
 
-        // Listener del CheckBox: al cambiar, dispara el PUT al backend
+        // Listener del CheckBox: avisa al VM cuando cambia
         binding.chDisponible.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

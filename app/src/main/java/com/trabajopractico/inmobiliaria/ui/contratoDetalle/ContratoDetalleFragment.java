@@ -31,17 +31,15 @@ public class ContratoDetalleFragment extends Fragment {
         binding = FragmentContratoDetalleBinding.inflate(inflater, container, false);
         vm = new ViewModelProvider(this).get(ContratoDetalleViewModel.class);
 
-        // Observer del inmueble: muestra la direccion en el detalle
-        vm.getInmuebleMutable().observe(getViewLifecycleOwner(), new Observer<Inmueble>() {
+        // Observer de la direccion
+        vm.getDireccionInmuebleMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
-            public void onChanged(Inmueble inmueble) {
-                if (inmueble != null) {
-                    binding.tvInmuebleDireccion.setText("Inmueble en " + inmueble.getDireccion());
-                }
+            public void onChanged(String direccion) {
+                binding.tvInmuebleDireccion.setText(direccion);
             }
         });
 
-        // Observer del contrato: llena todos los campos
+        // Observer del contrato
         vm.getContratoMutable().observe(getViewLifecycleOwner(), new Observer<Contrato>() {
             @Override
             public void onChanged(Contrato contrato) {
@@ -49,33 +47,52 @@ public class ContratoDetalleFragment extends Fragment {
                     binding.tvCodigoContrato.setText(String.valueOf(contrato.getIdContrato()));
                     binding.tvFechaInicio.setText(contrato.getFechaInicio());
                     binding.tvFechaFin.setText(contrato.getFechaFinalizacion());
-
-                    NumberFormat nf = NumberFormat.getInstance(new Locale("es", "AR"));
-                    binding.tvMontoAlquiler.setText("$ " + nf.format(contrato.getMontoAlquiler()));
-
-                    if (contrato.getInquilino() != null) {
-                        String nombreCompleto = contrato.getInquilino().getNombre() + " " +
-                                contrato.getInquilino().getApellido();
-                        binding.tvInquilinoNombre.setText(nombreCompleto);
-                    }
-
-                    binding.btnPagos.setEnabled(true);
                 }
             }
         });
 
-        // Boton PAGOS: navega al fragment de pagos pasando el idContrato
-        binding.btnPagos.setEnabled(false);
+        // Observer del monto formateado
+        vm.getMontoAlquilerMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String monto) {
+                binding.tvMontoAlquiler.setText(monto);
+            }
+        });
+
+        // Observer del nombre del inquilino
+        vm.getNombreInquilinoMutable().observe(getViewLifecycleOwner(), new Observer<String>() {
+            @Override
+            public void onChanged(String nombre) {
+                binding.tvInquilinoNombre.setText(nombre);
+            }
+        });
+
+        // Observer del estado del boton PAGOS
+        vm.getBotonPagosHabilitado().observe(getViewLifecycleOwner(), new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean habilitado) {
+                binding.btnPagos.setEnabled(habilitado != null && habilitado);
+            }
+        });
+
+        // Observer de navegacion: cuando el VM emite un id, navega a Pagos
+        vm.getIdContratoParaNavegar().observe(getViewLifecycleOwner(), new Observer<Integer>() {
+            @Override
+            public void onChanged(Integer idContrato) {
+                if (idContrato == null) return;
+                Bundle bundle = new Bundle();
+                bundle.putInt("idContrato", idContrato);
+                Navigation.findNavController(requireView()).navigate(
+                        R.id.action_contratoDetalleFragment_to_pagosFragment, bundle);
+                vm.resetIdContratoNavegacion();
+            }
+        });
+
+        // Boton PAGOS: solo avisa al VM
         binding.btnPagos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Contrato contrato = vm.getContratoMutable().getValue();
-                if (contrato == null) return;
-
-                Bundle bundle = new Bundle();
-                bundle.putInt("idContrato", contrato.getIdContrato());
-                Navigation.findNavController(v).navigate(
-                        R.id.action_contratoDetalleFragment_to_pagosFragment, bundle);
+                vm.solicitarNavegacionAPagos();
             }
         });
 

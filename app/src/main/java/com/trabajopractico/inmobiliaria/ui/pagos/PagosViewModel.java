@@ -1,6 +1,7 @@
 package com.trabajopractico.inmobiliaria.ui.pagos;
 
 import android.app.Application;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -28,6 +29,14 @@ public class PagosViewModel extends AndroidViewModel {
 
     public LiveData<List<Pago>> getListaPagos() {
         return listaPagos;
+    }
+
+    // El Fragment pasa el Bundle completo, el VM extrae y valida el id
+    public void cargarPagos(Bundle bundle) {
+        if (bundle == null) return;
+        int idContrato = bundle.getInt("idContrato", 0);
+        if (idContrato <= 0) return;
+        obtenerPagos(idContrato);
     }
 
     public void obtenerPagos(int idContrato) {
