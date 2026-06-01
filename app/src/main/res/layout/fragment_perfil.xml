@@ -62,7 +62,9 @@
             android:inputType="number"
             android:textColor="@color/morado_primario"
             android:layout_marginBottom="10dp"
-            android:autofillHints="" />
+            android:autofillHints=""
+            android:drawableStart="@drawable/ic_dni_small"
+            android:drawablePadding="8dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -79,7 +81,9 @@
             android:inputType="textPersonName"
             android:textColor="@color/morado_primario"
             android:layout_marginBottom="10dp"
-            android:autofillHints="name" />
+            android:autofillHints="name"
+            android:drawableStart="@drawable/ic_usuario_small"
+            android:drawablePadding="8dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -96,7 +100,9 @@
             android:inputType="textPersonName"
             android:textColor="@color/morado_primario"
             android:layout_marginBottom="10dp"
-            android:autofillHints="" />
+            android:autofillHints=""
+            android:drawableStart="@drawable/ic_usuario_small"
+            android:drawablePadding="8dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -113,7 +119,9 @@
             android:inputType="textEmailAddress"
             android:textColor="@color/morado_primario"
             android:layout_marginBottom="10dp"
-            android:autofillHints="emailAddress" />
+            android:autofillHints="emailAddress"
+            android:drawableStart="@drawable/ic_email_small"
+            android:drawablePadding="8dp" />
 
         <TextView
             android:layout_width="match_parent"
@@ -130,6 +138,8 @@
             android:enabled="false"
             android:inputType="phone"
             android:textColor="@color/morado_primario"
+            android:drawableStart="@drawable/ic_telefono_small"
+            android:drawablePadding="8dp"
             tools:layout_editor_absoluteX="0dp"
             tools:layout_editor_absoluteY="52dp" />
 

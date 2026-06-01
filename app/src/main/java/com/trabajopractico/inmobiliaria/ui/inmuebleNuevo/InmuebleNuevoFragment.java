@@ -1,6 +1,7 @@
 package com.trabajopractico.inmobiliaria.ui.inmuebleNuevo;
 
 import android.content.Intent;
+import android.widget.Toast;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
@@ -53,6 +54,10 @@ public class InmuebleNuevoFragment extends Fragment {
                     Navigation.findNavController(requireView()).popBackStack();
                 }
             }
+        });
+
+        vm.getMensaje().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null) Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
         });
 
         // Boton CARGAR IMAGEN: abre la galeria del celular

@@ -2,7 +2,6 @@ package com.trabajopractico.inmobiliaria.ui.inmuebles;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,6 +21,7 @@ public class InmueblesViewModel extends AndroidViewModel {
 
     private MutableLiveData<Inmueble> mInmueble;
     private MutableLiveData<List<Inmueble>> listaInmuebles = new MutableLiveData<>();
+    private MutableLiveData<String> mensajeMutable = new MutableLiveData<>();
 
     public InmueblesViewModel(@NonNull Application application) {
         super(application);
@@ -33,6 +33,8 @@ public class InmueblesViewModel extends AndroidViewModel {
         }
         return mInmueble;
     }
+
+    public LiveData<String> getMensaje() { return mensajeMutable; }
 
     public LiveData<List<Inmueble>> getListaInmuebles() {
         return listaInmuebles;
@@ -49,14 +51,14 @@ public class InmueblesViewModel extends AndroidViewModel {
                 if (response.isSuccessful()) {
                     listaInmuebles.postValue(response.body());
                 } else {
-                    Toast.makeText(getApplication(), "No se obtuvieron Inmuebles", Toast.LENGTH_LONG).show();
+                    mensajeMutable.postValue("No se obtuvieron inmuebles");
                 }
             }
 
             @Override
             public void onFailure(Call<List<Inmueble>> call, Throwable throwable) {
                 Log.d("ErrorInmueble", "Error al obtener inmuebles", throwable);
-                Toast.makeText(getApplication(), "Error al obtener Inmuebles", Toast.LENGTH_LONG).show();
+                mensajeMutable.postValue("Error de conexión");
             }
         });
     }

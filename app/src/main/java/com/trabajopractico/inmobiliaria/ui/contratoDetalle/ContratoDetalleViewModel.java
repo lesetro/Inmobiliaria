@@ -3,7 +3,6 @@ package com.trabajopractico.inmobiliaria.ui.contratoDetalle;
 import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -29,6 +28,7 @@ public class ContratoDetalleViewModel extends AndroidViewModel {
     private MutableLiveData<String> nombreInquilinoMutable;
     private MutableLiveData<String> montoAlquilerMutable;
     private MutableLiveData<String> direccionInmuebleMutable;
+    private MutableLiveData<String> mensajeMutable;
 
     public ContratoDetalleViewModel(@NonNull Application application) {
 
@@ -62,6 +62,11 @@ public class ContratoDetalleViewModel extends AndroidViewModel {
     public LiveData<String> getMontoAlquilerMutable() {
         if (montoAlquilerMutable == null) montoAlquilerMutable = new MutableLiveData<>();
         return montoAlquilerMutable;
+    }
+
+    public LiveData<String> getMensaje() {
+        if (mensajeMutable == null) mensajeMutable = new MutableLiveData<>();
+        return mensajeMutable;
     }
 
     public LiveData<String> getDireccionInmuebleMutable() {
@@ -117,8 +122,7 @@ public class ContratoDetalleViewModel extends AndroidViewModel {
 
                     botonPagosHabilitado.postValue(true);
                 } else {
-                    Toast.makeText(getApplication(), "No se obtuvo el contrato",
-                            Toast.LENGTH_LONG).show();
+                    mensajeMutable.postValue("No se obtuvo el contrato");
                     Log.d("ERROR", "codigo: " + response.code());
                     Log.d("ERROR", "mensaje: " + response.message());
                 }
@@ -126,7 +130,7 @@ public class ContratoDetalleViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<Contrato> call, Throwable t) {
-                Toast.makeText(getApplication(), "On failure", Toast.LENGTH_LONG).show();
+                mensajeMutable.postValue("Error de conexión");
             }
         });
     }

@@ -2,7 +2,6 @@ package com.trabajopractico.inmobiliaria.ui.perfilEditarContraseña;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,9 +21,15 @@ public class PerfilEditarContraseniaViewModel extends AndroidViewModel {
     // LiveData que avisa al fragment cuando el cambio fue exitoso
     // (para que vuelva al perfil)
     private MutableLiveData<Boolean> cambioExitoso;
+    private MutableLiveData<String> mensajeMutable;
 
     public PerfilEditarContraseniaViewModel(@NonNull Application application) {
         super(application);
+    }
+
+    public LiveData<String> getMensaje() {
+        if (mensajeMutable == null) mensajeMutable = new MutableLiveData<>();
+        return mensajeMutable;
     }
 
     public LiveData<Boolean> getCambioExitoso() {
@@ -39,7 +44,7 @@ public class PerfilEditarContraseniaViewModel extends AndroidViewModel {
     // Devuelve Void (el back no devuelve cuerpo, solo codigo de exito).
     public void cambiarContrasenia(String actual, String nueva) {
         if (actual == null || actual.isEmpty() || nueva == null || nueva.isEmpty()) {
-            Toast.makeText(getApplication(), "Complete ambos campos", Toast.LENGTH_LONG).show();
+            mensajeMutable.setValue("Complete ambos campos");
             return;
         }
 
@@ -51,12 +56,10 @@ public class PerfilEditarContraseniaViewModel extends AndroidViewModel {
             @Override
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(getApplication(), "Contraseña cambiada exitosamente",
-                            Toast.LENGTH_LONG).show();
+                    mensajeMutable.postValue("Contraseña cambiada exitosamente");
                     cambioExitoso.postValue(true);
                 } else {
-                    Toast.makeText(getApplication(), "Error al cambiar contraseña",
-                            Toast.LENGTH_LONG).show();
+                    mensajeMutable.postValue("Error al cambiar contraseña");
                     Log.d("ERROR", "codigo: " + response.code());
                     Log.d("ERROR", "mensaje: " + response.message());
                     Log.d("ERROR", "body: " + response.errorBody());
@@ -65,7 +68,7 @@ public class PerfilEditarContraseniaViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                Toast.makeText(getApplication(), "on failure", Toast.LENGTH_LONG).show();
+                mensajeMutable.postValue("Error de conexión");
             }
         });
     }

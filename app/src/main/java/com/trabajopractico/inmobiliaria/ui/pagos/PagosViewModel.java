@@ -3,7 +3,6 @@ package com.trabajopractico.inmobiliaria.ui.pagos;
 import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -22,14 +21,15 @@ import retrofit2.Response;
 public class PagosViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Pago>> listaPagos = new MutableLiveData<>();
+    private MutableLiveData<String> mensajeMutable = new MutableLiveData<>();
 
     public PagosViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public LiveData<List<Pago>> getListaPagos() {
-        return listaPagos;
-    }
+    public LiveData<List<Pago>> getListaPagos() { return listaPagos; }
+
+    public LiveData<String> getMensaje() { return mensajeMutable; }
 
     // El Fragment pasa el Bundle completo, el VM extrae y valida el id
     public void cargarPagos(Bundle bundle) {
@@ -50,8 +50,7 @@ public class PagosViewModel extends AndroidViewModel {
                 if (response.isSuccessful()) {
                     listaPagos.postValue(response.body());
                 } else {
-                    Toast.makeText(getApplication(), "No se obtuvieron pagos",
-                            Toast.LENGTH_LONG).show();
+                    mensajeMutable.postValue("No se obtuvieron pagos");
                     Log.d("ERROR", "codigo: " + response.code());
                     Log.d("ERROR", "mensaje: " + response.message());
                 }
@@ -59,7 +58,7 @@ public class PagosViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<List<Pago>> call, Throwable t) {
-                Toast.makeText(getApplication(), "On failure", Toast.LENGTH_LONG).show();
+                mensajeMutable.postValue("Error de conexión");
             }
         });
     }

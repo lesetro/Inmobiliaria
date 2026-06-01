@@ -148,4 +148,17 @@ public class ApiClient {
         SharedPreferences sp = context.getSharedPreferences(SP_FILE, Context.MODE_PRIVATE);
         sp.edit().remove(SP_KEY_TOKEN).apply();
     }
+
+    // Manejo del conteo de pagos para notificaciones
+    private static final String SP_KEY_CONTEO_PAGOS = "conteo_pagos";
+
+    public static void guardarConteoPagos(Context context, int conteo) {
+        SharedPreferences sp = context.getSharedPreferences(SP_FILE, Context.MODE_PRIVATE);
+        sp.edit().putInt(SP_KEY_CONTEO_PAGOS, conteo).apply();
+    }
+
+    public static int recuperarConteoPagos(Context context) {
+        SharedPreferences sp = context.getSharedPreferences(SP_FILE, Context.MODE_PRIVATE);
+        return sp.getInt(SP_KEY_CONTEO_PAGOS, -1);
+    }
 }

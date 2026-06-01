@@ -39,8 +39,7 @@
         <ImageView
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:src="@android:drawable/ic_menu_zoom"
-            app:tint="@color/morado_primario"
+            android:src="@drawable/ic_inmobiliaria"
             android:layout_marginBottom="40dp"
             android:contentDescription="@string/logo" />
 
@@ -55,7 +54,9 @@
             android:textColorHint="#FFFFFF"
             android:textColor="#FFFFFF"
             android:layout_marginBottom="14dp"
-            android:autofillHints="username" />
+            android:autofillHints="username"
+            android:drawableStart="@drawable/ic_usuario_small"
+            android:drawablePadding="8dp" />
 
         <EditText
             android:id="@+id/etContrasena"
@@ -68,7 +69,9 @@
             android:textColorHint="#FFFFFF"
             android:textColor="#FFFFFF"
             android:layout_marginBottom="28dp"
-            android:autofillHints="password" />
+            android:autofillHints="password"
+            android:drawableStart="@drawable/ic_contrasena_small"
+            android:drawablePadding="8dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnLogin"

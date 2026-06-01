@@ -1,6 +1,7 @@
 package com.trabajopractico.inmobiliaria.ui.contratos;
 
 import android.os.Bundle;
+import android.widget.Toast;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,10 @@ public class ContratosFragment extends Fragment {
                         binding.rvContratos.setLayoutManager(glm);
                     }
                 });
+
+        mViewModel.getMensaje().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null) Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+        });
 
         mViewModel.obtenerInmueblesAlquilados();
         return binding.getRoot();

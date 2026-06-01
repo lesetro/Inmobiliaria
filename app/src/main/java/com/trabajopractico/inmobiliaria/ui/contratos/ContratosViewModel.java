@@ -2,7 +2,6 @@ package com.trabajopractico.inmobiliaria.ui.contratos;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -21,14 +20,15 @@ import retrofit2.Response;
 public class ContratosViewModel extends AndroidViewModel {
 
     private MutableLiveData<List<Inmueble>> listaAlquilados = new MutableLiveData<>();
+    private MutableLiveData<String> mensajeMutable = new MutableLiveData<>();
 
     public ContratosViewModel(@NonNull Application application) {
         super(application);
     }
 
-    public LiveData<List<Inmueble>> getListaAlquilados() {
-        return listaAlquilados;
-    }
+    public LiveData<List<Inmueble>> getListaAlquilados() { return listaAlquilados; }
+
+    public LiveData<String> getMensaje() { return mensajeMutable; }
 
     // Trae solo los inmuebles que tienen contrato vigente.
     public void obtenerInmueblesAlquilados() {
@@ -42,8 +42,7 @@ public class ContratosViewModel extends AndroidViewModel {
                 if (response.isSuccessful()) {
                     listaAlquilados.postValue(response.body());
                 } else {
-                    Toast.makeText(getApplication(), "No se obtuvieron inmuebles alquilados",
-                            Toast.LENGTH_LONG).show();
+                    mensajeMutable.postValue("No se obtuvieron inmuebles alquilados");
                     Log.d("ERROR", "codigo: " + response.code());
                     Log.d("ERROR", "mensaje: " + response.message());
                 }
@@ -51,7 +50,7 @@ public class ContratosViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<List<Inmueble>> call, Throwable t) {
-                Toast.makeText(getApplication(), "On failure", Toast.LENGTH_LONG).show();
+                mensajeMutable.postValue("Error de conexión");
             }
         });
     }

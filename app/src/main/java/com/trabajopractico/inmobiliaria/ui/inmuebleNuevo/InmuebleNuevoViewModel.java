@@ -8,7 +8,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
@@ -37,6 +36,7 @@ public class InmuebleNuevoViewModel extends AndroidViewModel {
     private MutableLiveData<Uri> uriMutableLiveData;
     // LiveData que avisa al fragment cuando el inmueble se guardo exitosamente
     private MutableLiveData<Boolean> inmuebleCreado;
+    private MutableLiveData<String> mensajeMutable;
 
     public InmuebleNuevoViewModel(@NonNull Application application) {
         super(application);
@@ -47,6 +47,11 @@ public class InmuebleNuevoViewModel extends AndroidViewModel {
             uriMutableLiveData = new MutableLiveData<>();
         }
         return uriMutableLiveData;
+    }
+
+    public LiveData<String> getMensaje() {
+        if (mensajeMutable == null) mensajeMutable = new MutableLiveData<>();
+        return mensajeMutable;
     }
 
     public LiveData<Boolean> getInmuebleCreado() {
@@ -79,10 +84,10 @@ public class InmuebleNuevoViewModel extends AndroidViewModel {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
             return byteArrayOutputStream.toByteArray();
         } catch (FileNotFoundException ex) {
-            Toast.makeText(getApplication(), "Debe ingresar una foto", Toast.LENGTH_LONG).show();
+            mensajeMutable.postValue("Debe ingresar una foto");
             return new byte[]{};
         } catch (Exception ex) {
-            Toast.makeText(getApplication(), "Error al procesar la imagen", Toast.LENGTH_LONG).show();
+            mensajeMutable.postValue("Error al procesar la imagen");
             return new byte[]{};
         }
     }
@@ -92,27 +97,42 @@ public class InmuebleNuevoViewModel extends AndroidViewModel {
                                String ambientes, String superficie, String valor) {
         try {
             // Validar que ningun campo este vacio
-            if (direccion.isEmpty() || uso.isEmpty() || tipo.isEmpty() ||
+            if (direccion.trim().isEmpty() || uso.isEmpty() || tipo.isEmpty() ||
                     ambientes.isEmpty() || superficie.isEmpty() || valor.isEmpty()) {
-                Toast.makeText(getApplication(), "Debe completar todos los campos",
-                        Toast.LENGTH_LONG).show();
+                mensajeMutable.setValue("Debe completar todos los campos");
+                return;
+            }
+
+            int amb = Integer.parseInt(ambientes);
+            int sup = Integer.parseInt(superficie);
+            double val = Double.parseDouble(valor);
+
+            if (amb <= 0) {
+                mensajeMutable.setValue("Los ambientes deben ser mayor a 0");
+                return;
+            }
+            if (sup <= 0) {
+                mensajeMutable.setValue("La superficie debe ser mayor a 0");
+                return;
+            }
+            if (val <= 0) {
+                mensajeMutable.setValue("El precio debe ser mayor a 0");
                 return;
             }
 
             // Construir el inmueble con los datos del form
             Inmueble i = new Inmueble();
-            i.setDireccion(direccion);
+            i.setDireccion(direccion.trim());
             i.setUso(uso);
             i.setTipo(tipo);
-            i.setAmbientes(Integer.parseInt(ambientes));
-            i.setSuperficie(Integer.parseInt(superficie));
-            i.setValor(Double.parseDouble(valor));
+            i.setAmbientes(amb);
+            i.setSuperficie(sup);
+            i.setValor(val);
 
             // Transformar la imagen a bytes
             byte[] imagen = transformarImagen();
             if (imagen.length == 0) {
-                Toast.makeText(getApplication(), "Debe ingresar imagen",
-                        Toast.LENGTH_LONG).show();
+                mensajeMutable.setValue("Debe ingresar imagen");
                 return;
             }
 
@@ -134,12 +154,10 @@ public class InmuebleNuevoViewModel extends AndroidViewModel {
                 @Override
                 public void onResponse(Call<Inmueble> call, Response<Inmueble> response) {
                     if (response.isSuccessful()) {
-                        Toast.makeText(getApplication(), "Inmueble guardado correctamente",
-                                Toast.LENGTH_SHORT).show();
+                        mensajeMutable.postValue("Inmueble guardado correctamente");
                         inmuebleCreado.postValue(true);
                     } else {
-                        Toast.makeText(getApplication(), "Error al cargar inmueble",
-                                Toast.LENGTH_LONG).show();
+                        mensajeMutable.postValue("Error al cargar inmueble");
                         Log.d("ERROR", "codigo: " + response.code());
                         Log.d("ERROR", "mensaje: " + response.message());
                         Log.d("ERROR", "body: " + response.errorBody());
@@ -148,18 +166,14 @@ public class InmuebleNuevoViewModel extends AndroidViewModel {
 
                 @Override
                 public void onFailure(Call<Inmueble> call, Throwable t) {
-                    Toast.makeText(getApplication(), "On failure al cargar inmueble",
-                            Toast.LENGTH_SHORT).show();
+                    mensajeMutable.postValue("Error de conexión");
                 }
             });
 
         } catch (NumberFormatException e) {
-            Toast.makeText(getApplication(),
-                    "Los campos numericos deben tener un formato valido",
-                    Toast.LENGTH_LONG).show();
+            mensajeMutable.setValue("Los campos numéricos deben tener un formato válido");
         } catch (Exception e) {
-            Toast.makeText(getApplication(), "Error: " + e.getMessage(),
-                    Toast.LENGTH_LONG).show();
+            mensajeMutable.setValue("Error: " + e.getMessage());
         }
     }
 }

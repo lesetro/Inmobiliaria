@@ -1,6 +1,7 @@
 package com.trabajopractico.inmobiliaria.ui.inmuebleDetalle;
 
 import android.os.Bundle;
+import android.widget.Toast;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -96,6 +97,10 @@ public class InmuebleDetalleFragment extends Fragment {
             public void onChanged(String mensaje) {
                 binding.tvInmuebleDisponibilidad.setText(mensaje);
             }
+        });
+
+        mViewModel.getMensaje().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null) Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
         });
 
         mViewModel.cargarDetalleInmueble(getArguments());

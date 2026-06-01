@@ -1,6 +1,7 @@
 package com.trabajopractico.inmobiliaria.ui.inmuebles;
 
 import android.os.Bundle;
+import android.widget.Toast;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,10 @@ public class InmueblesFragment extends Fragment {
                 Navigation.findNavController(v)
                         .navigate(R.id.action_nav_inmuebles_to_inmuebleNuevoFragment);
             }
+        });
+
+        mViewModel.getMensaje().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null) Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
         });
 
         mViewModel.obtenerListaInmuebles();

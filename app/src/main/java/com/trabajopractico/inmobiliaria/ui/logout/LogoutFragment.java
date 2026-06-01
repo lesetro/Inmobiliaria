@@ -49,7 +49,7 @@ public class LogoutFragment extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Cierre de sesión");
         builder.setMessage("¿Está seguro de que desea cerrar la sesión?");
-        builder.setPositiveButton("ACEPTAR", (dialog, which) -> vm.cerrarSesion(getContext()));
+        builder.setPositiveButton("ACEPTAR", (dialog, which) -> vm.cerrarSesion());
         builder.setNegativeButton("CANCELAR", (dialog, which) -> dialog.dismiss());
         builder.setCancelable(false);
         builder.show();

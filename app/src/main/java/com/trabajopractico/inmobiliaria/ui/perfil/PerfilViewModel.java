@@ -2,7 +2,6 @@ package com.trabajopractico.inmobiliaria.ui.perfil;
 
 import android.app.Application;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -21,6 +20,7 @@ public class PerfilViewModel extends AndroidViewModel {
     private static final String TAG = "Perfil";
     private MutableLiveData<Propietario> propietarioMutable;
     private MutableLiveData<Boolean> modoEdicionMutable;
+    private MutableLiveData<String> mensajeMutable;
 
     public PerfilViewModel(@NonNull Application application) {
 
@@ -32,6 +32,11 @@ public class PerfilViewModel extends AndroidViewModel {
             propietarioMutable = new MutableLiveData<>();
         }
         return propietarioMutable;
+    }
+
+    public LiveData<String> getMensaje() {
+        if (mensajeMutable == null) mensajeMutable = new MutableLiveData<>();
+        return mensajeMutable;
     }
 
     public LiveData<Boolean> getModoEdicionMutable() {
@@ -95,6 +100,19 @@ public class PerfilViewModel extends AndroidViewModel {
 
     public void actualizarPropietario(String nombre, String apellido, String dni,
                                       String telefono, String email) {
+        if (nombre.trim().isEmpty() || apellido.trim().isEmpty()) {
+            mensajeMutable.setValue("Nombre y apellido son obligatorios");
+            return;
+        }
+        if (!email.matches("^[^@\\s]+@[^@\\s]+\\.[a-zA-Z]{2,}$")) {
+            mensajeMutable.setValue("El email no es válido");
+            return;
+        }
+        if (!telefono.matches("\\d+")) {
+            mensajeMutable.setValue("El teléfono solo debe contener números");
+            return;
+        }
+
         Propietario p = propietarioMutable.getValue();
         if (p == null) return;
 
@@ -116,11 +134,10 @@ public class PerfilViewModel extends AndroidViewModel {
                     Propietario nuevo = response.body();
                     if (nuevo != null) {
                         propietarioMutable.postValue(nuevo);
-                        Toast.makeText(getApplication(), "Actualizacion exitosa",
-                                Toast.LENGTH_LONG).show();
+                        mensajeMutable.postValue("Actualización exitosa");
                     }
                 } else {
-                    Toast.makeText(getApplication(), "Error", Toast.LENGTH_LONG).show();
+                    mensajeMutable.postValue("Error al actualizar perfil");
                     Log.d("ERROR", "codigo: " + response.code());
                     Log.d("ERROR", "mensaje: " + response.message());
                     Log.d("ERROR", "body: " + response.errorBody());
@@ -129,7 +146,7 @@ public class PerfilViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<Propietario> call, Throwable t) {
-                Toast.makeText(getApplication(), "on failure", Toast.LENGTH_LONG).show();
+                mensajeMutable.postValue("Error de conexión");
             }
         });
     }

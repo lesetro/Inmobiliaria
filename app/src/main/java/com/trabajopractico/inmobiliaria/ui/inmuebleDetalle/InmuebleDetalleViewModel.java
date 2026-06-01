@@ -3,13 +3,11 @@ package com.trabajopractico.inmobiliaria.ui.inmuebleDetalle;
 import android.app.Application;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.trabajopractico.inmobiliaria.modelo.Inmueble;
 import com.trabajopractico.inmobiliaria.request.ApiClient;
@@ -29,6 +27,7 @@ public class InmuebleDetalleViewModel extends AndroidViewModel {
     private MutableLiveData<String> codigoMutable;
     private MutableLiveData<String> ambientesMutable;
     private MutableLiveData<String> superficieMutable;
+    private MutableLiveData<String> mensajeMutable;
 
     public InmuebleDetalleViewModel(@NonNull Application application) {
 
@@ -67,6 +66,11 @@ public class InmuebleDetalleViewModel extends AndroidViewModel {
     public LiveData<String> getSuperficieMutable() {
         if (superficieMutable == null) superficieMutable = new MutableLiveData<>();
         return superficieMutable;
+    }
+
+    public LiveData<String> getMensaje() {
+        if (mensajeMutable == null) mensajeMutable = new MutableLiveData<>();
+        return mensajeMutable;
     }
 
     // Carga el detalle del inmueble desde el Bundle recibido del fragment anterior
@@ -118,7 +122,7 @@ public class InmuebleDetalleViewModel extends AndroidViewModel {
                     }
                     Log.d("INMUEBLE_DETALLE", "Disponibilidad cambiada");
                 } else {
-                    Toast.makeText(getApplication(), "Error", Toast.LENGTH_LONG).show();
+                    mensajeMutable.postValue("Error al actualizar disponibilidad");
                     Log.d("ERROR", "codigo: " + response.code());
                     Log.d("ERROR", "mensaje: " + response.message());
                     Log.d("ERROR", "body: " + response.errorBody());
@@ -127,7 +131,7 @@ public class InmuebleDetalleViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure(Call<Inmueble> call, Throwable t) {
-                Toast.makeText(getApplication(), "on failure", Toast.LENGTH_LONG).show();
+                mensajeMutable.postValue("Error de conexión");
             }
         });
     }

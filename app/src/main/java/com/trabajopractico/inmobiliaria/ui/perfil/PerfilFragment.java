@@ -5,6 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
@@ -76,12 +78,16 @@ public class PerfilFragment extends Fragment {
             }
         });
 
-        // Boton CAMBIAR CONTRASEÑA: navega al fragment de cambiar contrasenia
+        // Boton CAMBIAR CONTRASEÑA: navega al fragment de cambiar contraseña
         binding.btnCambiarContrasenia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Navigation.findNavController(v).navigate(R.id.perfilEditarContraseniaFragment);
             }
+        });
+
+        vm.getMensaje().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null) Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
         });
 
         vm.cargarPerfil();

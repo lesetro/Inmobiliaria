@@ -1,6 +1,7 @@
 package com.trabajopractico.inmobiliaria.ui.inquilinos;
 
 import android.os.Bundle;
+import android.widget.Toast;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,10 @@ public class InquilinosFragment extends Fragment {
                         binding.rvInquilinos.setLayoutManager(glm);
                     }
                 });
+
+        mViewModel.getMensaje().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null) Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+        });
 
         mViewModel.obtenerInmueblesAlquilados();
         return binding.getRoot();

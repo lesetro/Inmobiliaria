@@ -1,6 +1,7 @@
 package com.trabajopractico.inmobiliaria.ui.contratoDetalle;
 
 import android.os.Bundle;
+import android.widget.Toast;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,10 @@ public class ContratoDetalleFragment extends Fragment {
             public void onClick(View v) {
                 vm.solicitarNavegacionAPagos();
             }
+        });
+
+        vm.getMensaje().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null) Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
         });
 
         vm.cargarContrato(getArguments());

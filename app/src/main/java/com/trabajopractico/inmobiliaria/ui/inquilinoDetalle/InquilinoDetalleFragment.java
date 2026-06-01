@@ -1,6 +1,7 @@
 package com.trabajopractico.inmobiliaria.ui.inquilinoDetalle;
 
 import android.os.Bundle;
+import android.widget.Toast;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +38,10 @@ public class InquilinoDetalleFragment extends Fragment {
                     binding.tvTelefonoInquilino.setText(inquilino.getTelefono());
                 }
             }
+        });
+
+        vm.getMensaje().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null) Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
         });
 
         vm.cargarInquilino(getArguments());

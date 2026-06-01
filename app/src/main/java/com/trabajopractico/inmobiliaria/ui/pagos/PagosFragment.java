@@ -1,6 +1,7 @@
 package com.trabajopractico.inmobiliaria.ui.pagos;
 
 import android.os.Bundle;
+import android.widget.Toast;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +40,11 @@ public class PagosFragment extends Fragment {
 
 
         // El VM maneja la extraccion y validacion del Bundle
-        vm.cargarPagos(getArguments());
+        vm.getMensaje().observe(getViewLifecycleOwner(), msg -> {
+            if (msg != null) Toast.makeText(getContext(), msg, Toast.LENGTH_LONG).show();
+        });
 
+        vm.cargarPagos(getArguments());
         return binding.getRoot();
     }
 
